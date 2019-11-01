@@ -3,7 +3,14 @@
     <h1>todo list</h1>
     <div class="todo_box">
       <div class="todo_input">
-        <input type="text" name id v-model="addText" @keypress.enter="addTodo" />
+        <input
+          placeholder="请输入Todo"
+          type="text"
+          name
+          id
+          v-model="addText"
+          @keypress.enter="addTodo"
+        />
         <button @click="addTodo">+</button>
       </div>
       <div class="todo_list">
@@ -17,8 +24,8 @@
         </ul>
       </div>
       <div class="todo_count">
-        <span>一共有*个todo</span>
-        <span>清除所有todo</span>
+        <span>一共有{{todoList.length}}个todo</span>
+        <a href="#" @click="clearTodo">清除所有Todo</a>
       </div>
     </div>
   </div>
@@ -30,22 +37,18 @@ export default {
   data() {
     return {
       addText: "",
-      todoList: [
-        {
-          content: "吃饭",
-          completed: true
-        },
-        {
-          content: "睡觉",
-          completed: false
-        },
-        {
-          content: "洗澡",
-          completed: false
-        }
-      ]
+      todoList: []
     };
   },
+  mounted() {
+    let todoList = JSON.parse(window.localStorage.getItem("todoList"));
+    console.log("test");
+    if (todoList) {
+      // console.log("我找到辣");
+      this.todoList = todoList;
+    }
+  },
+
   methods: {
     addTodo() {
       if (this.addText === "") {
@@ -62,6 +65,12 @@ export default {
     },
     delTodo(index) {
       this.todoList.splice(index, 1);
+    },
+    clearTodo() {
+      this.todoList = [];
+    },
+    saveStorage() {
+      window.localStorage.setItem("todoList", JSON.stringify(this.todoList));
     }
   },
   watch: {
@@ -72,6 +81,7 @@ export default {
       deep: true,
       handler: function(newValue, oldValue) {
         console.log(newValue);
+        this.saveStorage();
       }
     }
   }
