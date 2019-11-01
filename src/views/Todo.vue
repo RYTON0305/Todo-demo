@@ -3,17 +3,17 @@
     <h1>todo list</h1>
     <div class="todo_box">
       <div class="todo_input">
-        <input type="text" name id v-model="addText"/>
+        <input type="text" name id v-model="addText" @keypress.enter="addTodo" />
         <button @click="addTodo">+</button>
       </div>
       <div class="todo_list">
         <ul>
-          <li v-for="todo in todoList" :key="todo.content">
-            <input type="checkbox" name id />
-            <label for></label> {{todo.content}}
-            <button>X</button>
+          <li v-for="(todo,index) in todoList" :key="index">
+            <input type="checkbox" v-model="todo.completed" name id />
+            <label for></label>
+            {{todo.content}}
+            <button @click="delTodo(index)">X</button>
           </li>
-          
         </ul>
       </div>
       <div class="todo_count">
@@ -30,22 +30,49 @@ export default {
   data() {
     return {
       addText: "",
-      todoList: []
+      todoList: [
+        {
+          content: "吃饭",
+          completed: true
+        },
+        {
+          content: "睡觉",
+          completed: false
+        },
+        {
+          content: "洗澡",
+          completed: false
+        }
+      ]
     };
   },
   methods: {
     addTodo() {
+      if (this.addText === "") {
+        alert("请输入Todo");
+        return;
+      }
+
       this.todoList.push({
-        content:this.addText,
-        compoleted:false
+        content: this.addText,
+        completed: false
       });
-      this.addText=''
-      console.log(this.todoList)
+      this.addText = "";
+      console.log(this.todoList);
+    },
+    delTodo(index) {
+      this.todoList.splice(index, 1);
     }
   },
-  watch:{
-    addText(){
-      console.log(this.addText)
+  watch: {
+    // addText() {
+    //   console.log(this.addText);
+    // },
+    todoList: {
+      deep: true,
+      handler: function(newValue, oldValue) {
+        console.log(newValue);
+      }
     }
   }
 };
