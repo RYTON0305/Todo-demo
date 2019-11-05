@@ -1,5 +1,14 @@
 # tododemo
 
+## 预览
+
+<img src='https://github.com/RYTON0305/Todo-demo/blob/dev/preview/todo.png' alt='todo'>
+
+### Hover样式
+
+<img src='https://github.com/RYTON0305/Todo-demo/blob/dev/preview/todoHover%20.png' alt='todoHover'>
+
+
 ## Project setup
 ```
 npm install
